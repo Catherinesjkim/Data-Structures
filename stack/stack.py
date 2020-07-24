@@ -1,8 +1,8 @@
 """
 A stack is a data structure whose primary purpose is to store and
-return elements in Last In First Out order (LIFO). i.e. printer, back button, and undo hotkey.  
+return elements in Last In, First-Out (LIFO) order/abstract data type (the last value added to the stack will be the first value removed from the stack). It is used for recursive parsing in Natural Language Processing.
 
-1. Implement the Stack class using an array as the underlying storage structure.
+1. Implement the Stack class using a dynamic array (when elements are added or removed, the storage area is resized every time accordingly)/list as the underlying storage structure.
    Make sure the Stack tests pass.
 2. Re-implement the Stack class, this time using the linked list implementation
    as the underlying storage structure.
@@ -10,56 +10,50 @@ return elements in Last In First Out order (LIFO). i.e. printer, back button, an
 3. What is the difference between using an array vs. a linked list when 
    implementing a Stack?
 """
-
+# import sys
+# sys.path.append('../singly_linked_list')
 from singly_linked_list import LinkedList
- 
-list1 = LinkedList
 
+class ArrayStack:
+    # Constructor
+    def __init__(self):
+        self.storage = [] # empty array - will fill up with items that are pushed to the stack
 
-class Node:
-    def __init__(self, value=None, next_node=None):
-        self.value = value
-        self.next_node = next_node
+    # find length of a Linked List iteratively
+    def __len__(self):
+        # returns the nuber of list items
+        return len(self.storage)
+    
+    # Adds new value to the Stack
+    def push(self, value):
+       self.storage.append(value)
 
-class Stack:
+    # Retrieves and removes value from Stack
+    # python = dynamic arrays
+    def pop(self):
+        if len(self.storage) == 0:
+            return None
+        return self.storage.pop()
+
+  class LLStack:
+    # Constructor
     def __init__(self):
         self.size = 0
-        # self.storage = ?
+        self.storage = LinkedList() 
 
+    # find length of a Linked List iteratively
     def __len__(self):
-        pass
+        # returns the nuber of list items
+        return self.size
 
+    # Adds new value to the Stack
     def push(self, value):
-        if self.size is None:
-            self.size = Node(value)
-        else: 
-            new_node = Node(value)
-            new_node.next = self.size
-            self.size = new_node
-
+       self.storage.add_to_head(value)
+       self.size += 1 # keeping track of how big this stack is
+   
+    # Retrieves and removes value from Stack
     def pop(self):
-        if self.size is None:
+        if self.size == 0:
             return None
-        else:
-            popped = self.size.value
-            self.size = self.size.next_node
-            return popped
-        
-a_stack = Stack()
-while True:
-    print('push <value>')
-    print('pop')
-    print('quit')
-    do = input('What would you like to do? ').split()
-    
-    operation = do[0].strip().lower()
-    if operation == 'push':
-        a_stack.push(int(do[1]))
-    elif operation == 'pop':
-        popped = a_stack.pop()
-        if popped is None:
-            print('Stack is empty.')
-        else:
-            print('Popped value: ', int(popped))
-    elif operation == 'quit':
-            break
+        self.size -= 1
+        return self.storage.remove_head()

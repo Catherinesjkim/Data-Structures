@@ -31,7 +31,7 @@ class LinkedList:
         else: 
             # new_node should point to current head
             new_node.next_node = self.head
-            # move ehad to new node
+            # move head to new node
             self.head = new_node
     
     # Insertion - keep track of tail
@@ -67,46 +67,44 @@ class LinkedList:
         self.head = self.head.next_node
         return head_value        
     
-    # traverse that some element exists, we did it correctly by adding a value and see that it exists
-    # need to Search through the LL - no divide & conquer, need to do it one by one
-    # contains = true or false
     def contains(self, value):
-        if self.head is None:
+        if not self.head:
             return False
         
-        # loop through each node, until we see the value, or we cannot go further
-        current_node = self.head
-        
-        while current_node is not None:
-        # check if this is the node we are looking for
-            if current_node.value == value:
-                return True
-            
-            # otherwise, go to the next node
-            current_node = current_node.next_node
-        return False
+        # get a reference to the node we're currently at; update this as we traverse the list
+        current = self.head
+        # check to see if we're at a valid node
+        while current:
+            #return True if the current value we're looking at matches our target value
+            if current.get_value() == value:
+                return true
+                # update our current node to the current node's next node
+                current = current.get_next()
+                # if we've gotten here, then the target node' 
     
     def get_max(self):
+        # if list empty
+        if not self.head:
+            return None
+        # check values
         current = self.head
-        
-        if (self.head == None):
-            print("List is empty")
-        else:
-            # initializing max to initial node data
-            max = self.head.value
-            while(True):
-                # if current node's value is greater than max, then replace value of max with current nodes' value
-                if(max < current.value):
-                   max = current.value
-                if (current == self.tail):
-                    break # because the tail in singly_linked_list doesn't have a pointer/reference to the next node
-                current = current.next_node
-            # print("Maximum value node in the list: " + str(max))
-            
-            return max
+        max_val = self.head.value
+        while current: 
+            if current.value > max_val:
+                max_val = current.value
+            current = current.next_node
+        return max_val
 
+# Victor Tran
+# def get_max(self):
+#     high = self.head.value
+#     node = self.head
+#     while node:
+#         high = node.value if node.value > high else high
+#         node = node.get_next()
+#     return high
     
-    
+
 linked_list = LinkedList()
 
 linked_list.add_to_head(0)

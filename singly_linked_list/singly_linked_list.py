@@ -4,14 +4,15 @@
 # LL: Adding to the back and the front, efficient linear deletion and addition runtime. 
 
 # LL: a collection of nodes.
-# This is how list traversal works - not changing the list.
+# This is how list traversal works - not changing the list
+# All LL/class Node has to know is somewhere needs to store value + where the next node is. 
 class Node: 
     def __init__(self, value=None, next_node=None):
         self.value = value
         self.next_node = next_node
         
 # LL obj needs to keep track of the Head and Tail
-# LinkedList is like a node manager - add, delete, etc.
+# Class LinkedList is like a node manager - add, delete, etc.
 # What is head going to store? A node that corresponse to our first node in the list
 class LinkedList:
     def __init__(self):
@@ -19,6 +20,7 @@ class LinkedList:
         self.tail = None # stores a node that is the end of the list
     
     # like an append/prepend/shift method in an array
+    # Insertion - keep track of head
     def add_to_head(self, value):
         # create a node to add to head
         new_node = Node(value)
@@ -31,7 +33,8 @@ class LinkedList:
             new_node.next_node = self.head
             # move ehad to new node
             self.head = new_node
-        
+    
+    # Insertion - keep track of tail
     def add_to_tail(self, value):
         # create a node to add to tail
         new_node = Node(value)
@@ -46,7 +49,7 @@ class LinkedList:
             self.tail.next_node = new_node
             self.tail = new_node
     
-    # remove the head and return its value
+    # Delete - remove the head and return its value
     def remove_head(self):
         # if list is empty, do nothing
         if not self.head:
@@ -65,7 +68,7 @@ class LinkedList:
         return head_value        
     
     # traverse that some element exists, we did it correctly by adding a value and see that it exists
-    # need to search through the LL - no divide & conquer, need to do it one by one
+    # need to Search through the LL - no divide & conquer, need to do it one by one
     # contains = true or false
     def contains(self, value):
         if self.head is None:
@@ -92,11 +95,11 @@ class LinkedList:
             # initializing max to initial node data
             max = self.head.value
             while(True):
-                # if current node's value is greater than max, then replace value of max with current nodes value
+                # if current node's value is greater than max, then replace value of max with current nodes' value
                 if(max < current.value):
                    max = current.value
                 if (current == self.tail):
-                    break
+                    break # because the tail in singly_linked_list doesn't have a pointer/reference to the next node
                 current = current.next_node
             print("Maximum value node in the list: " + str(max))
             

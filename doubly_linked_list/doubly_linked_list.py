@@ -7,6 +7,14 @@ class ListNode:
         self.prev = prev
         self.value = value
         self.next = next
+        
+    # delete method - modularizing my code - will be used later in the remove_from_head method
+    def delete(self):
+        if self.prev:
+            self.prev.next = self.next
+        if self.next:
+            self.next.prev = self.prev
+            # 1 <--> 2 <--> 3 
             
 """
 Our doubly-linked list class. It holds references to 
@@ -27,7 +35,16 @@ class DoublyLinkedList:
     the old head node's previous pointer accordingly.
     """
     def add_to_head(self, value):
-        pass
+        # always check if it's empty first
+        new_node = ListNode(value, None, None)
+        self.length += 1
+        if not self.head and not self.tail: 
+            self.head = new_node
+            self.tail = new_node
+        else:
+            new_node.next = self.head
+            self.head.prev = new_node
+            self.head = new_node
         
     """
     Removes the List's current head node, making the
@@ -35,7 +52,9 @@ class DoublyLinkedList:
     Returns the value of the removed Node.
     """
     def remove_from_head(self):
-        pass
+        value = self.head.value
+        self.delete(self.head)
+        return value
             
     """
     Wraps the given value in a ListNode and inserts it 
@@ -43,7 +62,17 @@ class DoublyLinkedList:
     the old tail node's next pointer accordingly.
     """
     def add_to_tail(self, value):
-        pass
+        new_node = ListNode(value, None, None)
+        self.length += 1
+        if not self.tail and not self.head:
+            self.tail = new_node
+            self.head = new_node
+        else:
+            new_node.prev = self.tail
+            # creating the last new node
+            self.tail.next = new_node
+            # change the pointer/flag/tag
+            self.tail = new_node
             
     """
     Removes the List's current tail node, making the 
@@ -54,12 +83,23 @@ class DoublyLinkedList:
         pass
             
     """
-    Removes the input node from its current spot in the 
+    Removes the input node from its current spot in the (what is an input node?)
     List and inserts it as the new head node of the List.
     """
     def move_to_front(self, node):
-        pass
-        
+        # check to make sure it's not already at head
+        if node is self.head:
+            return
+        # capture the value of that node first
+        value = node.value
+        # if the node is in the tail, we will pop it and get rid of it
+        if node is self.tail: 
+            self.remove_from_tail()
+        else: 
+            node.delete()
+            self.length -= 1 # big cause of bugs
+        self.add_to_head(value) # create a new node from the value
+            
     """
     Removes the input node from its current spot in the 
     List and inserts it as the new tail node of the List.

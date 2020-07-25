@@ -105,8 +105,7 @@ class LinkedList:
             
             return max
 
-    
-    
+# print out the results of the methods
 linked_list = LinkedList()
 
 linked_list.add_to_head(0)
@@ -117,7 +116,12 @@ print(f'Does our LL contain 2? {linked_list.contains(2)}')
 
 linked_list.add_to_head(2)
 print(f'The start of the list is {linked_list.head.value}')
+
 linked_list.add_to_head(5)
 print(f'The start of the list is {linked_list.head.value}')
-linked_list.remove_head()
-print(f'The start of the list is {linked_list.head.value}')
+
+# linked_list.remove_head()
+# print(f'The start of the list is {linked_list.head.value}')
+
+linked_list.get_max()
+# print("Maximum value node in the list: " + str(max))

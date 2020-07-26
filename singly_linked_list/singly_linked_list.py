@@ -6,14 +6,33 @@
 # LL: a collection of nodes.
 # This is how list traversal works - not changing the list
 # All LL/class Node has to know is somewhere needs to store value + where the next node is. 
+
+# 2 Classses - Node & LL
+
+# Node = value & next 
 class Node: 
-    def __init__(self, value=None, next_node=None):
+    def __init__(self, value=None, next_node=None): # pass in value and nex_node, default to None
         self.value = value
         self.next_node = next_node
-        
+    
+    # getter methods
+    def get_value(self):
+        return self.value
+    
+    def get_next(self):
+        return self.next_node
+    
+    def set_next(self, new_next)
+        self.next_node = new_next
+
+# my_node = Node(1, Node())
+
 # LL obj needs to keep track of the Head and Tail
-# Class LinkedList is like a node manager - add, delete, etc.
+# LinkedList class is like a node manager - add, delete, etc.
 # What is head going to store? A node that corresponse to our first node in the list
+
+# What do we need? Head & Tail
+# only method needed: add_to_tail or remove_head
 class LinkedList:
     def __init__(self):
         self.head = None # stores a node, that corresponds to our first node in the list
@@ -37,53 +56,57 @@ class LinkedList:
     # Insertion - keep track of tail
     def add_to_tail(self, value):
         # create a node to add to tail
-        new_node = Node(value)
-        # check if list is empty
-        if self.head is None and self.tail is None:
-            # if the list is empty, set both head and tail to new node
+        new_node = Node(value, None)  # LL that has 1 item so far value == None
+        # check if there is no head - empty list
+        if not self.head: # LL that has 1 item, the head & tail are the same
             self.head = new_node
             self.tail = new_node
-        # otherwise, the old tail is no longer the correct value
+            
+        # otherwise (if not an empty list), we will always have a tail
         else: 
             # point the node at the current tail, to the new node
-            self.tail.next_node = new_node
+            self.tail.set_next(new_node)
             self.tail = new_node
     
     # Delete - remove the head and return its value
+    # why do we want to remove the head? Append: change the head pointer
     def remove_head(self):
-        # if list is empty, do nothing
+        # is ther a head? 
         if not self.head:
-            return None
-        # if list only has one element, set head and tail to None
-        if self.head.next_node is None:
-            head_value = self.head.value
-            # set head reference to None
-            self.head = None
-            # set tail reference to None
-            self.tail = None
-            return head_value # return to the user that lets them know that it ran smoothly
-        # otherwise we have more elements in the list
-        head_value = self.head.value
-        self.head = self.head.next_node
-        return head_value        
-    
+            return None # empty
+        
+        # if head has no next, there is a single element in the LL
+        if not self.head.get_next():
+            head = self.head # 1 single item
+            self.head None
+            self.tail = None 
+            
+            return head.get_value() # return zero element list - single LL
+        
+        # more than one item 
+        value = self.head.get_value()
+        # set the head reference to the current head's next node in the list
+        self.head = self.head.get_next()
+        return value
+            
     # traverse that some element exists, we did it correctly by adding a value and see that it exists
     # need to Search through the LL - no divide & conquer, need to do it one by one
     # contains = true or false
     def contains(self, value):
-        if self.head is None:
+        if not self.head:
             return False
         
-        # loop through each node, until we see the value, or we cannot go further
-        current_node = self.head
-        
-        while current_node is not None:
-        # check if this is the node we are looking for
-            if current_node.value == value:
+        # get a reference to the node we're currently at; update this as we traverse the
+        current = self.head
+        # check to see if we're at a valid node 
+        while current:
+        # return True if the current value we're looking at matches our target value
+            if current.get_value == value:
                 return True
             
-            # otherwise, go to the next node
-            current_node = current_node.next_node
+            # update our current node to the current node's next node
+            current = current.get_next()
+        # if we've gotten here, then the target node isn't in our list
         return False
     
     def get_max(self):

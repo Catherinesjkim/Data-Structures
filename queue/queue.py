@@ -30,43 +30,43 @@ import sys
 sys.path.append('../singly_linked_list')
 from singly_linked_list import LinkedList
 
-class Queue:
-    def __init__(self):
-        self.size = 0
-        self.storage = []
+# class Queue:
+#     def __init__(self):
+#         self.size = 0
+#         self.storage = []
     
-    def __len__(self):
-        return len(self.storage)
+#     def __len__(self):
+#         return len(self.storage)
 
-    def enqueue(self, value):
-        self.storage.append(value)
+#     def enqueue(self, value):
+#         self.storage.append(value)
 
-    # how do we remove from a queue?
-    def dequeue(self):
-        if len(self.storage) == 0:
-            return None
-        return self.storage.pop(0)
+      # how do we remove from a queue?
+#     def dequeue(self):
+#         if len(self.storage) == 0:
+#             return None
+#         return self.storage.pop(0)
         
         
 # Queue implementaiton using a LL
 # LL starts with 2 Nones
-# class Queue:
-#     def __init__(self):
-#         self.size = 0
-#         self.storage = LinkedList()
+class Queue:
+    def __init__(self):
+        self.size = 0
+        self.storage = LinkedList()
 
-#     def __len__(self):
-#         return self.size
+    def __len__(self):
+        return self.size
 
-#     # if someone get into a line
-#     def enqueue(self, item):
-#         # add the item to the LL
-#         self.storage.add_to_tail(item)
-#         self.size += 1
+    # if someone get into a line
+    def enqueue(self, item):
+        # add the item to the LL
+        self.storage.add_to_tail(item)
+        self.size += 1
 
-#     # how do we remove from a queue?
-#     def dequeue(self): # It's my turn to checkout
-#         if self.size == 0:
-#             return None
-#         self.size -= 1
-#         return self.storage.remove_head() # LL taking care of the pointers
+    # how do we remove from a queue?
+    def dequeue(self): # It's my turn to checkout
+        if self.size == 0:
+            return None
+        self.size -= 1
+        return self.storage.remove_head() # LL taking care of the pointers

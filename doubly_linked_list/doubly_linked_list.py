@@ -2,12 +2,36 @@
 Each ListNode holds a reference to its previous node
 as well as its next node in the List.
 """
-class ListNode:
+class ListNode: # there are 2 pointers now.
     def __init__(self, value, prev=None, next=None):
-        self.prev = prev
         self.value = value
+        self.prev = prev
         self.next = next
         
+    """
+    Wrap the given value in a ListNode and insert it after this node. 
+    Note that this node could already have a next node it is point to.
+    """
+    def insert_after(self, value):
+        current_next = self.next # None
+        self.next = ListNode(value, self, current_next) # Create a new ListNode
+        if current_next: # is this a node or None
+            current_next.prev = self.next
+            
+    """
+    Wrap the given value in a ListNode and insert it before this node. 
+    Note that this node could already have a previous node it is point to.
+    """
+    def insert_before(self, value):
+        current_prev = self.prev
+        self.prev = ListNode(value, current_prev, self)
+        if current_prev:
+            current_prev.next = self.prev
+    
+    """
+    Rearranges this ListNode's previous and next pointers
+    accordingly effectively deleting this ListNode.
+    """
     # delete method - modularizing my code - will be used later in the remove_from_head method
     def delete(self):
         if self.prev:
@@ -35,17 +59,20 @@ class DoublyLinkedList:
     the old head node's previous pointer accordingly.
     """
     def add_to_head(self, value):
-        # always check if it's empty first
-        new_node = ListNode(value, None, None)
-        self.length += 1
-        if not self.head and not self.tail: 
+        # create a new_node
+        new_node = ListNode(value, None, None) # prev=None, next=None
+        # check if the DLL is empty:
+        if not self.head and not self.tail and not self.length:
             self.head = new_node
             self.tail = new_node
-        else:
+            self.length += 1
+        else: # in all other cases
             new_node.next = self.head
             self.head.prev = new_node
             self.head = new_node
-        
+            self.length = self.length + 1
+            
+            
     """
     Removes the List's current head node, making the
     current head's next node the new head of the List.
@@ -112,6 +139,11 @@ class DoublyLinkedList:
     order of the other elements of the List.
     """
     def delete(self, node):
+        prev_node = node.get_prev()
+        next_node = node.get_next()
+        prev_node.set_next(next_node)
+        next_node.set_prev(prev_node)
+        # decrement self.length
         pass
 
     """

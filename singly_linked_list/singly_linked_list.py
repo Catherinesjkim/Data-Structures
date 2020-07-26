@@ -18,15 +18,15 @@ class Node:
         self.next_node = next_node
     
     # getter methods
-    # def get_value(self):
-    #     return self.value
+    def get_value(self):
+        return self.value
     
-    # def get_next(self):
-    #     return self.next_node
+    def get_next(self):
+        return self.next_node
     
-    # def set_next(self, new_next):
+    def set_next(self, new_next):
         # set this node's next_node reference to the passed in node
-        # self.next_node = new_next
+        self.next_node = new_next
 
 # LL obj needs to keep track of the Head and Tail
 # LinkedList class is like a node manager - add, delete, etc.
@@ -61,16 +61,16 @@ class LinkedList:
     # Insertion - keep track of tail
     def add_to_tail(self, value):
         # wrap the input value in a node
-        new_node = Node(value) 
+        new_node = Node(value, None) 
         # check if there is no head (i.e., the list is empty)
-        if self.head is None and self.tail is None: 
+        if not self.head: 
             # if the list is initially empty, set both head and tail to the nnew_node
             self.head = new_node
             self.tail = new_node 
         # we have a non-empty list, add the new node to the tail
         else: 
             # set the current tail's next reference to our new node
-            self.tail.next_node = new_node
+            self.tail.set_next(new_node)
             # set the list's tail reference to the new node
             self.tail = new_node
     
@@ -95,6 +95,25 @@ class LinkedList:
         # set the head reference to the current head's next node in the list
         self.head = self.head.next_node
         return head_value
+    
+    def remove_tail(self):
+        if not self.head:
+            return None
+        
+        if self.head is self.tail:
+            value = self.head.get_value()
+            self.head = None
+            self.tail = None
+            return value
+            
+        current = self.head
+        
+        while current.get_next() is not self.tail:
+            current = current.get_next()
+            
+        value = self.tail.get_value()
+        self.tail = current
+        return value            
         
     # traverse that some element exists, we did it correctly by adding a value and see that it exists
     # need to Search through the LL - no divide & conquer, need to do it one by one

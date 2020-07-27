@@ -25,3 +25,13 @@ LL have O(n) lookups - searching
 DA have O(n) appends
 DA have O(n) prepends
 DA have O(1) lookups - searching
+
+## Binary Search Trees (BST)
+
+A tree node is free to point to multiple other nodes
+LL is a type of trees
+Binary tree: a node can point to at most to 2 other nodes
+Ternary tree: 3 other nodes
+4-ary tree: 4 nodes
+
+

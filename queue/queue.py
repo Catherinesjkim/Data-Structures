@@ -41,7 +41,7 @@ from singly_linked_list import LinkedList
 #     def enqueue(self, value):
 #         self.storage.append(value)
 
-      # how do we remove from a queue?
+#     # how do we remove from a queue?
 #     def dequeue(self):
 #         if len(self.storage) == 0:
 #             return None

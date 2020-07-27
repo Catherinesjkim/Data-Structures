@@ -73,6 +73,7 @@ class DoublyLinkedList:
             self.head.prev = new_node
             self.head = new_node
         
+        return new_node
             
     """
     Removes the List's current head node, making the
@@ -101,6 +102,8 @@ class DoublyLinkedList:
             self.tail.next = new_node
             # change the pointer/flag/tag
             self.tail = new_node
+            
+        return new_node
             
     """
     Removes the List's current tail node, making the 
@@ -169,32 +172,67 @@ class DoublyLinkedList:
         else:
             self.length -= 1
             node.delete()
+            
+            
+    def contains(self, value):
+        if self.head is None:
+            return False
+        # get a reference to the node we're currently at; update this as we traverse the
+        current_node = self.head
+        # check to see if we're at a valid node
+        while current_node is not None:
+            # return True if the current value we're looking at matches our target value
+            if current_node.value == value:
+                return True
+            # update our current node to the current node's next node
+            current_node = current_node.next
+        # if we've gotten here, then the target node isn't in our list
+        return False
 
     """
     Finds and returns the maximum value of all the nodes 
     in the List.
     """
     def get_max(self):
-        current_node = self.head
-        max_value = self.head.value
-        for i in range(1, self.length):
-            current_node = current_node.next
-            if current_node.value > max_value:
-                max_value = current_node.value
-        return max_value
+        current = self.head
+
+        if (self.head == None):
+            print("List is empty")
+        else:
+            # initializing max to initial node data
+            max = self.head.value
+            while(True):
+                # if current node's value is greater than max, then replace value of max with current nodes values
+                if(max < current.value):
+                    max = current.value
+                if (current == self.tail):
+                    break
+                current = current.next
+            print("Maximum value node in the list: " + str(max))
+
+            return max
+
 
 # Testing DLL Functions
 new_linked_list = DoublyLinkedList()
 
 new_linked_list.add_to_head(10)
 new_linked_list.add_to_head(5)
-new_linked_list.add_to_head(18)
+print(f'Does our DLL contain 10?: {new_linked_list.contains(10)}')
+print(f'Does our DLL contain 5?: {new_linked_list.contains(5)}')
+print(f'Does our DLL contain 18?: {new_linked_list.contains(18)}')
 
-new_linked_list.add_to_tail(29)
-new_linked_list.add_to_tail(39)
-new_linked_list.add_to_tail(49)
+new_linked_list.add_to_tail(33)
+new_linked_list.add_to_tail(68)
+print(f'Does our DLL contain 33?: {new_linked_list.contains(33)}')
+print(f'Does our DLL contain 68?: {new_linked_list.contains(68)}')
+print(f'Does our DLL contain 31?: {new_linked_list.contains(31)}')
 
 new_linked_list.remove_from_head()
+print(f'The start of the list is {new_linked_list.head.value}')
 
 new_linked_list.remove_from_tail()
+print(f'The end of the list is {new_linked_list.tail.value}')
+
+new_linked_list.get_max()
 

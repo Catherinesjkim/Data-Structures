@@ -29,22 +29,22 @@ from singly_linked_list import LinkedList
 
 # 1: Stack class with Array implementation
 # class Stack:
-      # Constructor
+#     # Constructor
 #     def __init__(self):
 #         self.storage = [] # empty array - will fill up with items that are pushed to the stack
 
-    # find length of an Array iteratively
-    # def __len__(self):
-        # returns the number of array items
-        # return len(self.storage)
+#     # find length of an Array iteratively
+#     def __len__(self):
+#         # returns the number of array items
+#         return len(self.storage)
     
-    # Adds new value to the Stack
-    # The worst case runtime complexity in an append in the dynamic array? Doubling process == O(n)
-    # def push(self, value):
-    #    self.storage.append(value)
+#     # Adds new value to the Stack
+#     # The worst case runtime complexity in an append in the dynamic array? Doubling process == O(n)
+#     def push(self, value):
+#        self.storage.append(value)
 
-    # Retrieves and removes value from Stack
-    # python = dynamic arrays
+#     # Retrieves and removes value from Stack
+#     # python = dynamic arrays
 #     def pop(self):
 #         if len(self.storage) == 0:
 #             return None
@@ -78,6 +78,3 @@ class Stack:
             return None
         self.size -= 1
         return self.storage.remove_tail()
-
-# test: 
-# add a string method and for loop - call the string method 

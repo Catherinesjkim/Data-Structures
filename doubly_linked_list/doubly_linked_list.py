@@ -90,14 +90,18 @@ class DoublyLinkedList:
     as the new tail of the list. Don't forget to handle 
     the old tail node's next pointer accordingly.
     """
-    def add_to_tail(self, value):
-        new_node = ListNode(value, None, None)
+    def add_to_tail(self, value): # 33
+        new_node = ListNode(value, None, None) # 33
         self.length += 1
+        
+        # empty dll
         if not self.tail and not self.head:
-            self.tail = new_node
-            self.head = new_node
+            self.tail = new_node # tail pointer to the new node
+            self.head = new_node # head pointer to the new node
+        
+        # not empty
         else:
-            new_node.prev = self.tail
+            new_node.prev = self.tail # current tail of dll
             # creating the last new node
             self.tail.next = new_node
             # change the pointer/flag/tag
@@ -111,7 +115,8 @@ class DoublyLinkedList:
     Returns the value of the removed Node.
     """
     def remove_from_tail(self):
-        value = self.tail.value
+        value = self.tail.value # get the value from the tail
+        # delete tail from DLL
         self.delete(self.tail)
         return value
          
@@ -142,35 +147,49 @@ class DoublyLinkedList:
         if node == self.tail:
             return
         value = node.value
-        self.delete(node)
+        if node is self.head:
+            self.remove_from_head()
+            self.add_to_tail(value)
+        else:
+            node.delete()
+            self.length -= 1
+            self.add_to_tail(value)
         
-        self.add_to_tail(value)
-        
-
     """
     Deletes the input node from the List, preserving the 
     order of the other elements of the List.
     """
     def delete(self, node): # use the delete method above under ListNode
-        # if prev is != None, take that item's next to my item's next, after me. 
-        # if next is != None, take its prev pointer and jump over me to the previous node. 
-        # there are pointers coming out of my node (middle node) but none towards me. Memory doesn't know my node's existence.
+        # Zero: if DLL is empty, there's nothing to delete, we should return 
         if not self.head and not self.tail:
-            return None
-        elif self.head == self.tail:
+            return 
+        
+         # decrement length of DLL
+        # would allow DLL to have a negative length?
+        self.length -= 1
+
+        # One: if DLL has 1 element, remove it by setting head and tail pointers to None
+        if self.head == self.tail:
             self.head = None
             self.tail = None
-            self.length -= 1
+        
+        # Anything > 2 elements: if node to delete is head, 
+        # set DLL head pointer to node.next - to the next item in the list
+        # delete node connections
         elif self.head == node:
             self.head = node.next
-            self.length -= 1
-            node.delete()
+            node.delete() # it will unlink all of the pointers for us
+            
+        # Anthything > 2 elements if node to delete is the tail, 
+        # then reset DLL tail pointer
+        # delete node connections
         elif self.tail == node:
             self.tail = node.prev
-            self.length -= 1
             node.delete()
+        
+        # More thatn three nodes in our DLL: all we need to do is delete the connections
+        # not head or tail
         else:
-            self.length -= 1
             node.delete()
             
             
@@ -194,23 +213,13 @@ class DoublyLinkedList:
     in the List.
     """
     def get_max(self):
+        if not self.head:
+            return None
+        max_val = self.head.value
         current = self.head
-
-        if (self.head == None):
-            print("List is empty")
-        else:
-            # initializing max to initial node data
-            max = self.head.value
-            while(True):
-                # if current node's value is greater than max, then replace value of max with current nodes values
-                if(max < current.value):
-                    max = current.value
-                if (current == self.tail):
-                    break
-                current = current.next
-            print("Maximum value node in the list: " + str(max))
-
-            return max
+        while current:
+            if current.value > max_val: 
+                max_val = current.value
 
 
 # Testing DLL Functions

@@ -213,14 +213,15 @@ class DoublyLinkedList:
     in the List.
     """
     def get_max(self):
-        if not self.head:
-            return None
-        max_val = self.head.value
-        current = self.head
-        while current:
-            if current.value > max_val: 
-                max_val = current.value
-
+        current_node = self.head
+        max_value = self.head.value
+        for i in range(1, self.length):
+            current_node = current_node.next
+            if current_node.value > max_value:
+                max_value = current_node.value
+            print("Maximum value node in the list: " + str(max_value))
+            
+        return max_value
 
 # Testing DLL Functions
 new_linked_list = DoublyLinkedList()

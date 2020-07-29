@@ -8,29 +8,99 @@ This part of the project comprises two days:
    on the BSTNode class.
 2. Implement the `in_order_print`, `bft_print`, and `dft_print` methods
    on the BSTNode class.
+   
+Traversing: walking through a tree
 """
+import sys
+import math
+
+# a binary tree node has data, pointer to left child and a pointer to right child
+# for all nodes n and it states that all left descendants <= n < all right descendants.
+# time complexity has an average of O(log n) - no need to go through each node in the tree
+
+# root node == self
 class BSTNode:
+    # Node class used by the BST
     def __init__(self, value):
+        # current root node's value == None
         self.value = value
+        # less than value
         self.left = None
+        # greater than value
         self.right = None
 
+    # BST is an ordered DS. Upon insertion, the nodes are placed in an orderly fashion
     # Insert the given value into the tree
+    # Similar to factorial operations
     def insert(self, value):
-        pass
-
+        # make a new BSTNode with our value
+        # check whether new node's value is less than current node's value
+        if value < self.value: # self == the root BSTNode
+            if self.left is None: # there's no self.left
+                self.left = BSTNode(value) # factorial - turn it into a node
+            else: # recursion is about to start
+                self.left.insert(value)
+                 
+        else: 
+            if self.right is None: # there's nothing - no node & value
+                self.right = BSTNode(value) # turn it into a node
+            else:
+                self.right.insert(value)
+                
+           
     # Return True if the tree contains the value
     # False if it does not
+    # check if value == target
+    # check if value is in left node
+    # if self.left is none, return false, else return true do same for right
     def contains(self, target):
-        pass
-
+        if self.value == target:
+            return True
+        if target < self.value:
+            if not self.left:
+                return False
+            else:
+                return self.left.contains(target)
+        else:
+            if not self.right:
+                return False
+            else:
+                return self.right.contains(target)
+    
     # Return the maximum value found in the tree
+    # In BST, we can find maximum by traversing right pointers until we reach the rightmost node. 
+    # We start with the root node, then we move to the right node, we keep on moving to right until we see NULL. The last leaf node is NULL, that is the node with maximum value.
+    
+    # Function to find the node with maximum value
+    # i.e. reightmost leaf node
+    # each node in a BST is in itself a BST.
     def get_max(self):
-        pass
-
-    # Call the function `fn` on the value of each node
+        current = self # root node 
+        
+        # loop down to find the rightmost leaf node
+        while(current.right):
+            current = current.right
+        return current.value
+        
+    # Call the function `fn` on the value of each node - update the value calling the function? - TL
+    # this function performs a traversal of every node in the tree executing the passed-in callback function on each tree node value.
+    # for_each() 
+    # For every node in the tree, we have sth, we want to do to the value of that.
+    # fn is a "call back function"
+    # def add_2(value):
+    # return value + 2
+    # Recursive: print statements everywehere - condition breaks it. Return is not needed. 
     def for_each(self, fn):
-        pass
+        # start at the root!
+        # call the function fn
+        fn(self.value) # this is for updating each node's value
+        if self.left:
+            # one way of doing recursion - the left node is passed in to self
+            self.left.for_each(fn)
+            
+        if self.right:
+            self.right.for_each(fn) # the right node is passed in to self
+             
 
     # Part 2 -----------------------
 
@@ -63,7 +133,7 @@ class BSTNode:
 """
 This code is necessary for testing the `print` methods
 """
-bst = BinarySearchTree(1)
+bst = BSTNode(1)
 
 bst.insert(8)
 bst.insert(5)
@@ -73,13 +143,13 @@ bst.insert(3)
 bst.insert(4)
 bst.insert(2)
 
-bst.bft_print()
-bst.dft_print()
+# bst.bft_print()
+# bst.dft_print()
 
-print("elegant methods")
-print("pre order")
-bst.pre_order_dft()
-print("in order")
-bst.in_order_dft()
-print("post order")
-bst.post_order_dft()  
+# print("elegant methods")
+# print("pre order")
+# bst.pre_order_dft()
+# print("in order")
+# bst.in_order_dft()
+# print("post order")
+# bst.post_order_dft()  

@@ -22,7 +22,7 @@ Traversing: walking through a tree
 # Only one class instead of 2 classes - trees are simpler - no need to keep track of pointers
 # Only need to keep track of root node
 # root node == self
-class BSTNode: # test starts with value of 5 
+class BSTNode: # test starts with value of 8
     # Node class used by the BST
     def __init__(self, value): # value is not optional - you will always have a value
         # current root node's value == None
@@ -41,7 +41,6 @@ class BSTNode: # test starts with value of 5
     def insert(self, value):  # a classic Recursive function 
         # take the current value of our node (self.value)
         # compare to the new value we want to insert
-        
         if value < self.value: # (3 < 8)
             # IF self.left is already taken by a node
                 # make that (left) node, call insert
@@ -89,7 +88,7 @@ class BSTNode: # test starts with value of 5
             # if you cannot go left, return False
             if self.left is None:  # base case - if your base case returns sth, then also return what your recursive also finds
                 return False  # base case
-            return = self.left.contains(target) # found - because the base case returns sth.
+            return self.left.contains(target) # found - because the base case returns sth.
             
         # if current value is less than target
         if self.value < target: # 8 <12
@@ -98,11 +97,9 @@ class BSTNode: # test starts with value of 5
             if self.right is None:  # base case
                 return False  # base case
             # does the right tree contain the target?
-            return = self.right.contains(target) # first recursive case - the problem is not simple enough to solve with our base case - found - because the base case returns sth.
-            
-        return found
-            
+            return self.right.contains(target) # first recursive case - the problem is not simple enough to solve with our base case - found - because the base case returns sth.
         
+            
     # Return the maximum value found in the tree
     # In BST, we can find maximum by traversing right pointers until we reach the rightmost node. 
     # We start with the root node, then we move to the right node, we keep on moving to right until we see NULL. The last leaf node is NULL, that is the node with maximum value.
@@ -111,7 +108,7 @@ class BSTNode: # test starts with value of 5
     # i.e. reightmost leaf node
     # each node in a BST is in itself a BST.
 
-    def get_max(self):  # start with the node that's 5
+    def get_max(self):  # start with the node that's 8
         if self.right is None: 
             return self.value
         else:
@@ -158,15 +155,15 @@ class BSTNode: # test starts with value of 5
         
     # Print all the values in order from low to high
     # Hint: Use a recursive, Depth First Traversal (DFT)
-    def in_order_print(self):  # node is the new pointer that we get to pass in
+    # def in_order_print(self):  # node is the new pointer that we get to pass in
         # Lowest number is always the furthest to the left
         # base case?
-        if self.left is not None:
+        # if self.left is not None:
         # recursive case? closest to the base case
-            self.in_order_print()
-        print(self.value) # from BST node
-        if self.right is not None:
-            self.right.in_order_print()
+        #     self.in_order_print()
+        # print(self.value) # from BST node
+        # if self.right is not None:
+        #     self.right.in_order_print()
             
         # build up your call stack to see what happens? 
         
@@ -175,53 +172,53 @@ class BSTNode: # test starts with value of 5
     
     # Print the value of every node, starting with the given node,
     # in an iterative Breadth First Traversal - we are not working with recursion - How about QUEUE or Stack?
-    def bft_print(self, node): # this function will only get called once
+    # def bft_print(self, node): # this function will only get called once
         # use a queue to start queue with root node
-        qq = deque()
-        qq.append(self)
+        # qq = deque()
+        # qq.append(self)
     
         # while loop that checks the size of queue
             # pointer variable that updates at the beginning of each loop
-        while len(qq) > 0:
-            current = qq.popleft()
-            print(current.value)
-            if current.left:
-                qq.append(current.left)
-            if current.right:
-                qq.append(current.right)
+        # while len(qq) > 0:
+        #     current = qq.popleft()
+        #     print(current.value)
+        #     if current.left:
+        #         qq.append(current.left)
+        #     if current.right:
+        #         qq.append(current.right)
         
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal (DFT) - not recursion
-    def dft_print(self):
+    # def dft_print(self):
         # use a stack
         # start your stack with the root node == self
-        s = []
-        s.append(self)
+        # s = []
+        # s.append(self)
         
         # while loop that checks stack size
             # use a pointer variable to keep updating it
-        while len(s) > 0:
-            current = s.pop()
-            print(current.value)
-            if current.left:
-                s.append(current.left)
-            if current.right:
-                s.append(current.right)
+        # while len(s) > 0:
+        #     current = s.pop()
+        #     print(current.value)
+        #     if current.left:
+        #         s.append(current.left)
+        #     if current.right:
+        #         s.append(current.right)
             
     # Stretch Goals -------------------------
     # Note: Research may be required
 
     # Print Pre-order recursive DFT
-    def pre_order_dft(self):
-        pass
+    # def pre_order_dft(self):
+    #     pass
 
     # Print Post-order recursive DFT
-    def post_order_dft(self):
-        pass
+    # def post_order_dft(self):
+    #     pass
     
-root_node = BSTNode(8) # no insert function needs to be called
-root_node.insert(3)
-initial_found_var = root_node.contains(12)
+# root_node = BSTNode(8) # no insert function needs to be called
+# root_node.insert(3)
+# initial_found_var = root_node.contains(12)
 
 
 
@@ -238,13 +235,13 @@ bst.insert(3)
 bst.insert(4)
 bst.insert(2)
 
-bst.bft_print()
-bst.dft_print()
+# bst.bft_print()
+# bst.dft_print()
 
-print("elegant methods")
-print("pre order")
-bst.pre_order_dft()
-print("in order")
-bst.in_order_dft()
-print("post order")
-bst.post_order_dft()  
+# print("elegant methods")
+# print("pre order")
+# bst.pre_order_dft()
+# print("in order")
+# bst.in_order_dft()
+# print("post order")
+# bst.post_order_dft()  

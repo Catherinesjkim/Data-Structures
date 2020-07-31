@@ -62,8 +62,8 @@ class BinarySearchTreeTests(unittest.TestCase):
     #     self.assertTrue(v5 in arr)
 
     def test_print_traversals(self):
-        WARNING:  Tests are for Print()
-        Debug calls to Print() in functions will cause failure
+        # WARNING:  Tests are for Print()
+        # Debug calls to Print() in functions will cause failure
 
         stdout_ = sys.stdout  # Keep previous value
         sys.stdout = io.StringIO()

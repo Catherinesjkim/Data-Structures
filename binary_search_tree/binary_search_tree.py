@@ -1,3 +1,5 @@
+from collections import deque
+
 """
 Binary search trees are a data structure that enforce an ordering over 
 the data they store. That ordering in turn makes it a lot more efficient 
@@ -11,72 +13,96 @@ This part of the project comprises two days:
    
 Traversing: walking through a tree
 """
-import sys
-import math
 
 # a binary tree node has data, pointer to left child and a pointer to right child
 # for all nodes n and it states that all left descendants <= n < all right descendants.
 # time complexity has an average of O(log n) - no need to go through each node in the tree
 # there's no HEAD in binary search tree, just series of nodes that are connected
 
+# Only one class instead of 2 classes - trees are simpler - no need to keep track of pointers
+# Only need to keep track of root node
 # root node == self
 class BSTNode: # test starts with value of 5 
     # Node class used by the BST
     def __init__(self, value): # value is not optional - you will always have a value
         # current root node's value == None
         self.value = value
-        # less than value
-        self.left = None
-        # greater than value
-        self.right = None
         
-    # Insert the given value into the tree
-    # BST is an ordered DS. Upon insertion, the nodes are placed in an orderly fashion
-    # Similar to factorial operations
-    def insert(self, value): # 2 is passed as value
-        # make a new BSTNode with our value
-        # check whether new node's value is less than current node's value
-        if value < self.value: # self == the root of BSTNode: 2 < 5
-            if self.left is None: # there's no node or value on the  self.left
-                self.left = BSTNode(value) # if None then turn it into a node (factorial) - create a new node to the left spot - our insert with 2 is done. 
-            else: # recursion is about to start - subtree level - self.left = 2
-                self.left.insert(value) # on the subtree, insert 3 - Call Stack: 2.insert(3)
+        # initial node = None is valid so that we could use it/build out more trees
+        self.left = None  # less than value - valid node
+        self.right = None  # greater than value - valid node
+        
+    # Insert the given value into the tree 
+    
+    # recursive function
+    # self == BSTNode
+    # value == 8 
+    # root.insert(8)
+    def insert(self, value):  # a classic Recursive function 
+        # take the current value of our node (self.value)
+        # compare to the new value we want to insert
+        
+        if value < self.value: # (3 < 8)
+            # IF self.left is already taken by a node
+                # make that (left) node, call insert
+            # set the left to the new node with the new value 
+            if self.left is None: # base case
+                self.left = BSTNode(value) # base case - if the base case runs, then the recursive case does not run -->
                 
-        # to make clear that this is the greater and equal case        
-        elif value >= self.value: # is 3 > 2? 
-            if self.right is None: # there's nothing - no node & value - yes, it's none
-                self.right = BSTNode(value) # create our first new right node - subtree of 2
-            else:
-                self.right.insert(value) 
-    # implicit return from line 43
-    # return None again  
-              
-           
-           
-    # Return True if the tree contains the value - Search function
-    # False if it does not
-    # check if value == target
-    # check if value is in left node
-    # if self.left is none, return false, else return true to do the same for the right nodes
-    # Call Stack: 5.contains(7)
-    def contains(self, target): # start with the node that's 5
-        if self.value == target: # 7 == 7
-            return True
-        # Which direction? Implied direction is right since 7 > 5
-        if target > self.value:
-            if self.right is None:
-                return False
-            else:
-                # need to return recursive calls: True or False
-                return self.right.contains(target) # this is where we start recursion --> returns True == 7.contains(7)
+            # if self.left is Not None: recursion about to happen - a function that's calling itself
+            else: 
+                self.left.insert(value) # we don't know how to instantiate this but maybe 3 will know - calling itself == Recursive
             
-        if target < self.value:
-            if self.left is None:
-                return False
+        if value >= self.value: # we are calling the second insert here since 8 (root node) doesn't know how to do it (5 > 3)
+            # IF self.right is already taken by a node
+                # make that (right) node call insert
+            # set the right child to the new node with new value
+            if self.right is None: # base case - if the base case runs, then the recursive case does not run -->
+                self.right = BSTNode(value)
+
+            # if self.left is Not None: recursion about to happen - a function that's calling itself
             else:
-                return self.left.contains(target)
-    
-    
+                self.right.insert(value) # calling intself == Recursive
+    # runtime complexity: O(log n) - always code running on one side of the node - left or right, not both
+
+    # Recursive case/steps:
+        # repeat function until we reach base case 
+        # repeating the problems until the base case is hit
+        
+    # Base case:
+        # usually where "code" that does the whatever you need it to do
+
+           
+    # Return True if the tree contains the value (Search function - If 8 inside the tree? Yes)
+    # False if it does not
+    # recursive contains function needs to return sth. - more complicated
+    # root.contains(8)
+    def contains(self, target): 
+        if self.value == target: # base case - easiest scenario possible
+            return True  # base case
+        # compare the target to current value
+        
+        # if current value is more than the target
+        # found = False
+        if self.value >= target: # equal sign is not necessary - line 44 already handled it
+            # check the left subtree (self.left.contains(target))
+            # if you cannot go left, return False
+            if self.left is None:  # base case - if your base case returns sth, then also return what your recursive also finds
+                return False  # base case
+            return = self.left.contains(target) # found - because the base case returns sth.
+            
+        # if current value is less than target
+        if self.value < target: # 8 <12
+            # check if right subtree contains target
+            # if you cannot go right, return False
+            if self.right is None:  # base case
+                return False  # base case
+            # does the right tree contain the target?
+            return = self.right.contains(target) # first recursive case - the problem is not simple enough to solve with our base case - found - because the base case returns sth.
+            
+        return found
+            
+        
     # Return the maximum value found in the tree
     # In BST, we can find maximum by traversing right pointers until we reach the rightmost node. 
     # We start with the root node, then we move to the right node, we keep on moving to right until we see NULL. The last leaf node is NULL, that is the node with maximum value.
@@ -114,67 +140,74 @@ class BSTNode: # test starts with value of 5
             self.left.for_each(fn) # 3.for_each(fn) --> []
         # implicit return is None
         
-             
-
-
     # Part 2 -----------------------
+    
+    # Unlike linear data structures (Array, LL, Queues Stacks, etc) which have only one logical way to traverse them, trees can be traversed in different ways. There are 2 widely used ways for traversing trees:
+    
+    # 1. Depth First Search (DFS) - technique used for traversing tree or graph. Backtracking is used for traversal. In this traversal, first the deepest node is visited and then bracktracks to it's parent node if no sibling of that node exists. We can simply begin from a node, then traverse its adjacent (or children) without caring about cycles. And if we begin from a single node (root), and traverse this way, it is guaranteed that we traverse the whole tree. 
+    
+    # 2. Breadth First Search (BFS) - Level order traversal of a tree. 
     
     # Search is completed when the target of the search is found
     # Traversal is completed when every node has been explored - just visiting each node
     # DFT: Continues traveling forward on each branch until a dead end is reached - You go as deep as possible down One path before backing up and going down a different One to search for an item - alway go left first
     
-    # Print all the values in order from low to high
-    # Hint:  Use a recursive, Depth First Traversal (DFT)
     # Call stack is the going to help me. It builds up and then tears down. Go all the way down to the bottom before going up
     # in_order_print(1)
     # in_order_print(None)
-    
-    # Starter code
-
-    def in_order_print(self, node):  # node is the new pointer that we get to pass in
+        
+    # Print all the values in order from low to high
+    # Hint: Use a recursive, Depth First Traversal (DFT)
+    def in_order_print(self):  # node is the new pointer that we get to pass in
         # Lowest number is always the furthest to the left
-        
         # base case?
-        if node is None:
-            return 
-        # if node is None?
-        
+        if self.left is not None:
         # recursive case? closest to the base case
-        self.in_order_print(self.left)
-    
+            self.in_order_print()
+        print(self.value) # from BST node
+        if self.right is not None:
+            self.right.in_order_print()
+            
         # build up your call stack to see what happens? 
         
-
     # BFT: You first explore all the nodes one step away, then all the nodes two steps away, etc.
     # Level 1 first, and then level 2 second, etc.
     
     # Print the value of every node, starting with the given node,
     # in an iterative Breadth First Traversal - we are not working with recursion - How about QUEUE or Stack?
     def bft_print(self, node): # this function will only get called once
-        pass
-        # use a queue to
-        # start queue with root node
-    
+        # use a queue to start queue with root node
+        qq = deque()
+        qq.append(self)
     
         # while loop that checks the size of queue
             # pointer variable that updates at the beginning of each loop
-            
+        while len(qq) > 0:
+            current = qq.popleft()
+            print(current.value)
+            if current.left:
+                qq.append(current.left)
+            if current.right:
+                qq.append(current.right)
         
-
-
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal (DFT) - not recursion
-    def dft_print(self, node):
-        pass
+    def dft_print(self):
         # use a stack
-        # start your stack with the root node
+        # start your stack with the root node == self
+        s = []
+        s.append(self)
         
         # while loop that checks stack size
             # use a pointer variable to keep updating it
+        while len(s) > 0:
+            current = s.pop()
+            print(current.value)
+            if current.left:
+                s.append(current.left)
+            if current.right:
+                s.append(current.right)
             
-        
-        
-
     # Stretch Goals -------------------------
     # Note: Research may be required
 
@@ -185,6 +218,12 @@ class BSTNode: # test starts with value of 5
     # Print Post-order recursive DFT
     def post_order_dft(self):
         pass
+    
+root_node = BSTNode(8) # no insert function needs to be called
+root_node.insert(3)
+initial_found_var = root_node.contains(12)
+
+
 
 """
 This code is necessary for testing the `print` methods
@@ -199,13 +238,13 @@ bst.insert(3)
 bst.insert(4)
 bst.insert(2)
 
-# bst.bft_print()
-# bst.dft_print()
+bst.bft_print()
+bst.dft_print()
 
-# print("elegant methods")
-# print("pre order")
-# bst.pre_order_dft()
-# print("in order")
-# bst.in_order_dft()
-# print("post order")
-# bst.post_order_dft()  
+print("elegant methods")
+print("pre order")
+bst.pre_order_dft()
+print("in order")
+bst.in_order_dft()
+print("post order")
+bst.post_order_dft()  

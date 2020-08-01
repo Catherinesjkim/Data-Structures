@@ -78,21 +78,21 @@ class BinarySearchTreeTests(unittest.TestCase):
         self.bst.insert(2)
 
         # in_order_print test
-        self.bst.in_order_print(self.bst)
+        self.bst.in_order_print()
 
         output = sys.stdout.getvalue()
         self.assertEqual(output, "1\n2\n3\n4\n5\n6\n7\n8\n")
 
         # bft_print test
         sys.stdout = io.StringIO()
-        self.bst.bft_print(self.bst)
+        self.bst.bft_print()
         output = sys.stdout.getvalue()
         self.assertTrue(output == "1\n8\n5\n3\n7\n2\n4\n6\n" or
                         output == "1\n8\n5\n7\n3\n6\n4\n2\n")
 
         # bft_print test
         sys.stdout = io.StringIO()
-        self.bst.dft_print(self.bst)
+        self.bst.dft_print()
         output = sys.stdout.getvalue()
         self.assertTrue(output == "1\n8\n5\n7\n6\n3\n4\n2\n" or
                         output == "1\n8\n5\n3\n2\n4\n7\n6\n")

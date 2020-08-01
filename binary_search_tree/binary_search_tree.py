@@ -78,7 +78,7 @@ class BSTNode: # test starts with value of 8
     # root.contains(8)
     def contains(self, target): 
         if self.value == target: # base case - easiest scenario possible
-            return True  # base case
+            return True  # base case - figures out if the current value if what we are looking for
         # compare the target to current value
         
         # if current value is more than the target
@@ -99,49 +99,64 @@ class BSTNode: # test starts with value of 8
             # does the right tree contain the target?
             return self.right.contains(target) # first recursive case - the problem is not simple enough to solve with our base case - found - because the base case returns sth.
         
-            
+             
     # Return the maximum value found in the tree
     # In BST, we can find maximum by traversing right pointers until we reach the rightmost node. 
     # We start with the root node, then we move to the right node, we keep on moving to right until we see NULL. The last leaf node is NULL, that is the node with maximum value.
     
     # Function to find the node with maximum value
-    # i.e. reightmost leaf node
+    # i.e. rightmost leaf node
     # each node in a BST is in itself a BST.
-
+    # needs to return sth.
+    # could use iterative solution like LL
+    # but using recursive in this case - left or right or both
     def get_max(self):  # start with the node that's 8
-        if self.right is None: 
-            return self.value
-        else:
-            return self.right.get_max() # will return 30
+        # call function on the current value fn(self.value)
+        # if you can go left, call for_each on the left tree
+        # if you can go right, call for_each on the right tree
+        if self.right is None: # base case works, we just need to reach the base case
+            # figures out the biggest value
+            return self.value # current.value -
+        # if there's a value to the right
+        max_val = self.right.get_max() # reaching the base case - go further right
+        return max_val
         
         
     # Call the function `fn` on the value of each node
     # I don't know what the numbers are going to be because the test function is generating random numbers but I'm guessing between 1 - 101
-    def for_each(self, fn):
-        # the starting node always has a value 
-        # 5.for_each(fn) -->
-        fn(self.value)
-        # fn(5) --> [5]
-        # fn(50) - -> [5, 50]
-        # fn(75) --> [5, 50, 75]
-        # fn(3) --> [5, 50, 75, 3]
+    
+    # an example of DFT
+    # JS: Arr.ForEach(() => { do something }) anonymous function
+    def for_each(self, fn): # who is calling what? 
+        # 8.for_each(fn) -->
+        # call function on the current value fn(self.value)
+        fn(self.value)  # base case - calls a function
+        # fn(8) --> [8]
+        # fn(3) --> [8, 3]
+        # fn(9) --> [8, 3, 9]
+        # fn(10) --> [8, 3, 8, 9]
+        # fn(12) --> [8, 3, 8, 9, 12]
         
-        if self.right is not None:
+        # if you can go left, call for_each on the left tree
+        if self.left:
+            self.left.for_each(fn)  # 3.for_each(fn) --> [3]
+        # implicit return is None
+        
+        # if you can go right, call for_each on the right tree 
+        if self.right:
             self.right.for_each(fn)  # the right node is passed in to self
-            # 50.for_each(fn) --> fn(50) --> [5, 50]
-            # 75.for_each(fn) --> fn(75) --> [5, 50, 75]
+            # 10.for_each(fn) --> fn(10) --> [8, 3, 10]
+            # 9.for_each(fn) --> fn(9) --> [8, 3, 10, 9]
+            # 12.for_each(fn) --> fn(12) --> [8, 3, 10, 9, 12]
         # implicit return is None 
         
-        if self.left is not None:
-            # one way of doing recursion - the left node is passed in to self
-            self.left.for_each(fn) # 3.for_each(fn) --> []
-        # implicit return is None
         
     # Part 2 -----------------------
     
     # Unlike linear data structures (Array, LL, Queues Stacks, etc) which have only one logical way to traverse them, trees can be traversed in different ways. There are 2 widely used ways for traversing trees:
     
     # 1. Depth First Search (DFS) - technique used for traversing tree or graph. Backtracking is used for traversal. In this traversal, first the deepest node is visited and then bracktracks to it's parent node if no sibling of that node exists. We can simply begin from a node, then traverse its adjacent (or children) without caring about cycles. And if we begin from a single node (root), and traverse this way, it is guaranteed that we traverse the whole tree. 
+    
     
     # 2. Breadth First Search (BFS) - Level order traversal of a tree. 
     
@@ -153,58 +168,70 @@ class BSTNode: # test starts with value of 8
     # in_order_print(1)
     # in_order_print(None)
         
+    # Tree Traversal
+    # 1. visit each node once
+    # 2. probably do fn()
+
     # Print all the values in order from low to high
-    # Hint: Use a recursive, Depth First Traversal (DFT)
-    # def in_order_print(self):  # node is the new pointer that we get to pass in
+    # Hint: Use a recursive, Depth First Traversal (DFT) - prioritize going deep first
+    def in_order_print(self):  # node is the new pointer that we get to pass in
         # Lowest number is always the furthest to the left
-        # base case?
-        # if self.left is not None:
+        # left --> root --> right
+        if self.left is not None:
         # recursive case? closest to the base case
-        #     self.in_order_print()
-        # print(self.value) # from BST node
-        # if self.right is not None:
-        #     self.right.in_order_print()
-            
-        # build up your call stack to see what happens? 
+            self.left.in_order_print()
+        print(self.value) # from BST node
+        
+        if self.right is not None:
+            self.right.in_order_print()
+        # build up my call stack to see what happens
         
     # BFT: You first explore all the nodes one step away, then all the nodes two steps away, etc.
-    # Level 1 first, and then level 2 second, etc.
+    # Level 1 (node level) first, and then level 2 (child node level) second, etc.
     
     # Print the value of every node, starting with the given node,
-    # in an iterative Breadth First Traversal - we are not working with recursion - How about QUEUE or Stack?
-    # def bft_print(self, node): # this function will only get called once
-        # use a queue to start queue with root node
-        # qq = deque()
-        # qq.append(self)
-    
-        # while loop that checks the size of queue
-            # pointer variable that updates at the beginning of each loop
-        # while len(qq) > 0:
-        #     current = qq.popleft()
-        #     print(current.value)
-        #     if current.left:
-        #         qq.append(current.left)
-        #     if current.right:
-        #         qq.append(current.right)
+    # in an iterative Breadth First Traversal - we are not working with recursion - How about QUEUE? First In, First Out (FIFO) data structure.
+    def bft_print(self): # this function will only get called once
+        # create a queue for nodes
+        qq = deque()
+        # add the first node to the queue
+        qq.append(self)
         
+        # while queue is not empty
+        while len(qq) > 0:
+            # remove the first node from the queue
+            current = qq.popleft()
+            # print the removed node
+            print(current.value)
+            
+            # add all children into the queue
+            if current.left:
+                qq.append(current.left)
+            if current.right:
+                qq.append(current.right)
+    
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal (DFT) - not recursion
-    # def dft_print(self):
-        # use a stack
-        # start your stack with the root node == self
-        # s = []
-        # s.append(self)
+    def dft_print(self):
+        # create a stack for nodes
+        s = []
+        # add the first node to the stack
+        s.append(self)
         
-        # while loop that checks stack size
-            # use a pointer variable to keep updating it
-        # while len(s) > 0:
-        #     current = s.pop()
-        #     print(current.value)
-        #     if current.left:
-        #         s.append(current.left)
-        #     if current.right:
-        #         s.append(current.right)
-            
+        # while the stack is not empty
+        while len(s) > 0:
+            # get the current node from the top of the stack
+            current = s.pop()
+            # print that node
+            print(current.value)
+            # add all children to the stack
+            # keep in mind, the order you add to the children, will matter
+            if current.left:
+                s.append(current.left)
+            if current.right:
+                s.append(current.right)
+                
+
     # Stretch Goals -------------------------
     # Note: Research may be required
 
@@ -216,10 +243,16 @@ class BSTNode: # test starts with value of 8
     # def post_order_dft(self):
     #     pass
     
-# root_node = BSTNode(8) # no insert function needs to be called
-# root_node.insert(3)
-# initial_found_var = root_node.contains(12)
+root_node = BSTNode(8) # no insert function needs to be called
+root_node.insert(3)
+root_node.insert(10)
+root_node.insert(9)
+root_node.insert(12)
 
+# JS: const print_node = (x) => { console.log(x) }
+print_node = lambda x: print(f'current_node is: {x}')
+
+root_node.for_each(print_node)
 
 
 """

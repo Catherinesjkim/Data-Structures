@@ -4,16 +4,16 @@ from doubly_linked_list import DoublyLinkedList
 
 class DoublyLinkedListTests(unittest.TestCase):
     def setUp(self):
-        self.node = ListNode(1)
-        self.dll = DoublyLinkedList(self.node)
+        self.node = ListNode(1) # only one node
+        self.dll = DoublyLinkedList(self.node) # added 1 node
 
-    def test_list_remove_from_tail(self):
-        self.dll.remove_from_tail()
-        self.assertIsNone(self.dll.head)
-        self.assertIsNone(self.dll.tail)
-        self.assertEqual(len(self.dll), 0)
+    def test_list_remove_from_tail(self): # removed 1 node
+        self.dll.remove_from_tail() # no prev or next
+        self.assertIsNone(self.dll.head) # is head none? Should be true
+        self.assertIsNone(self.dll.tail) # is tail none? Should be true
+        self.assertEqual(len(self.dll), 0) # checking that the len function works
 
-        self.dll.add_to_tail(33)
+        self.dll.add_to_tail(33) # how many items in dll? 0
         self.assertEqual(self.dll.head.value, 33)
         self.assertEqual(self.dll.tail.value, 33)
         self.assertEqual(len(self.dll), 1)
